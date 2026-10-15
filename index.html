@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Protección Civil — Captura móvil de servicios
+  © 2026 H. Ayuntamiento de Ixhuatlán del Café, Veracruz. Todos los derechos reservados.
+  Desarrollado por el Órgano de Control Interno del H. Ayuntamiento de Ixhuatlán del Café.
+  AVISO DE USO: Este software, su código, diseño y contenido son de uso exclusivo del H. Ayuntamiento de
+  Ixhuatlán del Café. Queda prohibido copiarlo, compartirlo, distribuirlo, modificarlo, venderlo o reutilizarlo,
+  total o parcialmente, sin autorización previa y por escrito del titular. El uso no autorizado puede dar lugar
+  a acciones legales conforme a la Ley Federal del Derecho de Autor. -->
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="author" content="Órgano de Control Interno, H. Ayuntamiento de Ixhuatlán del Café"/>
+<meta name="copyright" content="© 2026 H. Ayuntamiento de Ixhuatlán del Café. Todos los derechos reservados."/>
+<meta name="robots" content="noindex, nofollow"/>
+<meta name="theme-color" content="#005eff"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<link rel="icon" href="icono.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="icono-192.png"/>
+<title>Captura PC Ixhuatlán</title>
+<style>
+:root{--navy:#0f172a;--blue:#1da8ea;--blue-d:#005eff;--gray:#556070;--line:#dde6f0;--bg:#f4f7fb;--ok:#16a34a;--warn:#f59e0b;--err:#dc2626}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--navy);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px}
+body{min-height:100vh;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;display:flex;align-items:center;gap:10px}
+header h1{font-size:15px;margin:0;line-height:1.2;flex:1}
+header small{display:block;font-weight:400;opacity:.9;font-size:12px}
+.estado{font-size:12px;font-weight:700;border-radius:12px;padding:4px 9px;background:rgba(255,255,255,.2);white-space:nowrap}
+.estado.off{background:#fde68a;color:#78350f}
+.icon-btn{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:10px;padding:7px 10px;font-size:13px;font-weight:700}
+main{padding:12px;max-width:640px;margin:0 auto}
+.card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(15,23,42,.06)}
+.card h2{font-size:15px;margin:0 0 10px;color:var(--navy)}
+label{display:block;font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.3px;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;background:#fbfdff;font:inherit;color:var(--navy)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;padding:14px;border:0;border-radius:12px;font:inherit;font-weight:800;font-size:16px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--blue-d));margin-top:10px}
+.btn.sec{background:#e8eef6;color:var(--navy)}
+.btn.sm{width:auto;padding:9px 14px;font-size:14px;margin:0}
+.btn.rojo{background:var(--err)}
+.btn:disabled{opacity:.5}
+.ahora{display:flex;gap:8px}.ahora input{flex:1}.ahora button{flex:none;width:auto;margin:0;padding:0 14px}
+.prog{display:flex;gap:8px}.prog button{flex:1;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font:inherit;font-weight:700;color:var(--gray)}
+.prog button.on{background:var(--blue-d);border-color:var(--blue-d);color:#fff}
+.edades{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;align-items:center;font-size:14px}
+.edades b{font-size:12px;text-align:center}
+.step{display:flex;align-items:center;gap:4px}.step button{width:34px;height:40px;border:1.5px solid var(--line);background:#fff;border-radius:8px;font-size:18px;font-weight:800;color:var(--blue-d)}
+.step input{text-align:center;padding:10px 2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:flex;align-items:center;gap:6px;margin:0;text-transform:none;font-size:14px;font-weight:600;color:var(--navy);background:#eef4fa;border:1px solid var(--line);border-radius:18px;padding:8px 12px}
+.chips input{width:auto}
+.item{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff}
+.item .t{font-weight:800;font-size:15px}.item .s{font-size:13px;color:var(--gray);margin-top:2px}
+.badge{display:inline-block;font-size:11px;font-weight:800;border-radius:10px;padding:3px 8px;margin-left:6px;vertical-align:middle}
+.b-pend{background:#fef3c7;color:#92400e}.b-env{background:#dcfce7;color:#166534}.b-imp{background:#e0e7ff;color:#3730a3}.b-err{background:#fee2e2;color:#991b1b}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#fff;border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;background:none;padding:12px 4px;font:inherit;font-size:13px;font-weight:700;color:var(--gray)}
+nav button.on{color:var(--blue-d);box-shadow:inset 0 3px 0 var(--blue-d)}
+#toasts{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:60;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--navy);color:#fff;border-radius:12px;padding:12px 14px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.toast.ok{background:#166534}.toast.err{background:#991b1b}
+#login{position:fixed;inset:0;z-index:50;background:linear-gradient(135deg,#0f172a,#005eff);display:none;align-items:center;justify-content:center;padding:20px;overflow:auto}
+#login.on{display:flex}
+#login .card{width:100%;max-width:380px;padding:24px}
+.aviso{text-align:center;font-size:11px;color:var(--gray);padding:6px 14px 16px;line-height:1.5}
+.muted{color:var(--gray);font-size:13px}
+.err-txt{color:var(--err);font-size:14px;min-height:20px;margin-top:8px}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="login"><div class="card">
+  <div style="text-align:center;font-size:40px">🛡️</div>
+  <h2 style="text-align:center;font-size:19px;margin:4px 0 2px">Protección Civil</h2>
+  <p class="muted" style="text-align:center;margin:0 0 8px">H. Ayuntamiento de Ixhuatlán del Café<br/>Captura de servicios</p>
+  <form onsubmit="entrar();return false">
+    <label>Usuario</label><input id="lg-u" autocomplete="username" autocapitalize="none" autocorrect="off" placeholder="Ej. compa1"/>
+    <label>Contraseña</label><input id="lg-p" type="password" autocomplete="current-password"/>
+    <div class="err-txt" id="lg-err"></div>
+    <button class="btn" type="submit" id="lg-btn">Entrar</button>
+  </form>
+  <div class="aviso" style="padding:14px 0 0">© 2026 H. Ayuntamiento de Ixhuatlán del Café.<br/>Desarrollado por el Órgano de Control Interno.<br/>Uso exclusivo; prohibida su copia o distribución sin autorización por escrito.</div>
+</div></div>
+
+<header>
+  <h1>Protección Civil<small id="h-user">—</small></h1>
+  <span class="estado" id="h-estado">En línea</span>
+  <button class="icon-btn" id="h-menu" onclick="menu()">⋮</button>
+</header>
+
+<main>
+  <!-- NUEVO SERVICIO -->
+  <section id="v-nuevo">
+    <div class="card">
+      <h2 id="f-titulo">Nuevo servicio</h2>
+      <label>Tipo de servicio *</label><select id="f-rubro" onchange="sugerirProg();toggleVeh()"></select>
+
+      <label>¿Evento programado con anticipación?</label>
+      <div class="prog"><button type="button" id="p-no" class="on" onclick="setProg(false)">No (emergencia)</button><button type="button" id="p-si" onclick="setProg(true)">Sí, programado</button></div>
+
+      <div class="fila" style="margin-top:2px"><div><label>Fecha *</label><input type="date" id="f-fecha"/></div><div id="w-hprog" class="hide"><label>Hora programada</label><input type="time" id="f-hprog"/></div></div>
+      <div id="w-horas">
+        <label>Hora del llamado</label><div class="ahora"><input type="time" id="f-hll"/><button class="btn sec" type="button" onclick="ahora('f-hll')">Ahora</button></div>
+        <label>Hora de llegada</label><div class="ahora"><input type="time" id="f-hlg"/><button class="btn sec" type="button" onclick="ahora('f-hlg')">Ahora</button></div>
+      </div>
+
+      <label>Colonia / localidad *</label><input id="f-loc" list="dl-loc" placeholder="Ej. Centro" autocomplete="off"/><datalist id="dl-loc"></datalist>
+      <label>Lugar de ocurrencia</label><select id="f-lugar"></select>
+      <div id="w-veh" class="hide"><label>Vehículo(s) involucrado(s)</label><div class="chips" id="f-veh"></div></div>
+      <label>Resultado</label><select id="f-res"></select>
+
+      <label>Ubicación (opcional)</label>
+      <div class="ahora"><input id="f-gps" readonly placeholder="Sin ubicación"/><button class="btn sec" type="button" onclick="gps()">Usar GPS</button></div>
+    </div>
+
+    <div class="card">
+      <h2>Personas atendidas</h2>
+      <div class="edades" id="f-edades"></div>
+      <div class="fila"><div><label>Total atendidas</label><input type="number" inputmode="numeric" min="0" id="f-pa" placeholder="0"/></div><div><label>Trasladadas</label><input type="number" inputmode="numeric" min="0" id="f-pt" placeholder="0"/></div></div>
+    </div>
+
+    <div class="card">
+      <h2>Detalles</h2>
+      <label>Personal que atendió</label><div class="chips" id="f-personal"></div>
+      <input id="f-otros" placeholder="Otros nombres (separados por coma)" style="margin-top:8px"/>
+      <label>Observaciones</label><textarea id="f-obs" rows="3" placeholder="Opcional"></textarea>
+    </div>
+
+    <button class="btn" onclick="guardar()" id="f-guardar">Guardar servicio</button>
+    <button class="btn sec" onclick="limpiar()" id="f-cancel" style="display:none">Cancelar edición</button>
+  </section>
+
+  <!-- MIS SERVICIOS -->
+  <section id="v-lista" class="hide">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Mis servicios</h2><button class="btn sm" onclick="sincronizar(true)" id="b-sync">Enviar ahora</button></div>
+      <p class="muted" id="l-resumen" style="margin:8px 0 0"></p>
+    </div>
+    <div id="l-lista"></div>
+  </section>
+</main>
+
+<div class="aviso">© 2026 H. Ayuntamiento de Ixhuatlán del Café. Desarrollado por el Órgano de Control Interno.<br/>Uso exclusivo; prohibida su copia o distribución sin autorización por escrito.</div>
+
+<nav><button id="n-nuevo" class="on" onclick="vista('nuevo')">➕ Nuevo servicio</button><button id="n-lista" onclick="vista('lista')">📋 Mis servicios <span id="n-badge"></span></button></nav>
+<div id="toasts"></div>
+
+<script src="config.js"></script>
+<script>
+'use strict';
+const CFG=window.PC_CONFIG,$=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast('⚠️ No hay espacio para guardar en el teléfono','err');}}};
+const K={ses:'pcm_sesion',cola:'pcm_servicios',cat:'pcm_catalogos',perfil:'pcm_perfil'};
+const uuid=()=>crypto.randomUUID?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:(r&3|8)).toString(16);});
+const hoyISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const horaAhora=()=>{const d=new Date();return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;};
+function toast(m,t){const d=document.createElement('div');d.className='toast '+(t||'');d.textContent=m;$('toasts').appendChild(d);setTimeout(()=>d.remove(),3500);}
+
+/* ---------- Catálogos (base = los mismos de la bitácora de escritorio; la oficina puede ampliarlos) ---------- */
+const BASE={
+  rubros:[{k:'emergencias',l:'Emergencias'},{k:'accidentes',l:'Accidentes'},{k:'incendios',l:'Incendios'},{k:'busqueda',l:'Búsqueda y rescate de personas'},{k:'traslados',l:'Traslados'},{k:'animales',l:'Atención a animales'},{k:'lluvias',l:'Afectaciones por lluvias'},{k:'resguardo',l:'Resguardo y vialidad',prog:true},{k:'medidas',l:'Medidas de seguridad'},{k:'zona',l:'Zona de riesgo'},{k:'limpieza',l:'Limpieza o prevención'},{k:'simulacros',l:'Simulacros',prog:true},{k:'cursos',l:'Cursos o capacitaciones',prog:true}],
+  lugares:['Hogar','Vía pública','Trabajo','Escuela','Transporte público'],
+  vehiculos:['Vehículo automotor','Motocicleta','Bicicleta','Maquinaria pesada','Transporte pesado'],
+  resultados:['Atendido en el lugar','Trasladado a hospital','Canalizado a otra dependencia','Sin novedad / falsa alarma','Fallecimiento','Pendiente']
+};
+const EDADES=[{k:'ni',l:'Niñez (0–11)'},{k:'ad',l:'Adolescencia (12–17)'},{k:'jo',l:'Jóvenes (18–29)'},{k:'ar',l:'Adultos (30–59)'},{k:'am',l:'Adultos mayores (60+)'}];
+let CAT=JSON.parse(JSON.stringify(BASE)),LOCS=[];
+function aplicarCatalogo(filas){
+  const por=t=>(filas||[]).filter(f=>f.tipo===t&&f.activo!==false);
+  const r=por('rubro');if(r.length)CAT.rubros=r.map(f=>({k:f.clave,l:f.etiqueta,prog:!!(f.extra&&f.extra.prog)}));
+  const l=por('lugar');if(l.length)CAT.lugares=l.map(f=>f.etiqueta);
+  const v=por('vehiculo');if(v.length)CAT.vehiculos=v.map(f=>f.etiqueta);
+  const s=por('resultado');if(s.length)CAT.resultados=s.map(f=>f.etiqueta);
+  LOCS=por('localidad').map(f=>f.etiqueta);
+}
+function pintarCatalogo(){
+  const sel=(id,arr,vacio)=>{const v=$(id).value;$(id).innerHTML=(vacio?`<option value="">${vacio}</option>`:'')+arr.map(x=>`<option value="${esc(x.v)}">${esc(x.t)}</option>`).join('');if(v)$(id).value=v;};
+  sel('f-rubro',CAT.rubros.map(r=>({v:r.k,t:r.l})),'Selecciona…');
+  sel('f-lugar',CAT.lugares.map(x=>({v:x,t:x})),'Sin especificar');
+  sel('f-res',CAT.resultados.map(x=>({v:x,t:x})));
+  $('f-veh').innerHTML=CAT.vehiculos.map(x=>`<label><input type="checkbox" value="${esc(x)}"/> ${esc(x)}</label>`).join('');
+  const locs=new Set([...LOCS,...cola().map(s=>s.localidad)]);
+  $('dl-loc').innerHTML=[...locs].filter(Boolean).sort().map(x=>`<option value="${esc(x)}">`).join('');
+}
+
+/* ---------- Sesión (Supabase Auth por REST) ---------- */
+const ses=()=>LS.get(K.ses,null);
+const correo=u=>{u=u.trim().toLowerCase();return u.includes('@')?u:`${u}@${CFG.dominioCorreo}`;};
+async function api(ruta,{metodo='GET',cuerpo,token,extra={}}={}){
+  const h={apikey:CFG.key,'Content-Type':'application/json',...extra};
+  if(token)h.Authorization='Bearer '+token;
+  const r=await fetch(CFG.url+ruta,{method:metodo,headers:h,body:cuerpo?JSON.stringify(cuerpo):undefined});
+  let datos=null;try{datos=await r.json();}catch(e){}
+  return{ok:r.ok,estado:r.status,datos};
+}
+async function entrar(){
+  const u=$('lg-u').value,p=$('lg-p').value;$('lg-err').textContent='';
+  if(!u.trim()||!p){$('lg-err').textContent='Escribe tu usuario y contraseña.';return;}
+  if(!navigator.onLine){$('lg-err').textContent='Para iniciar sesión por primera vez se necesita internet.';return;}
+  $('lg-btn').disabled=true;
+  try{
+    const r=await api('/auth/v1/token?grant_type=password',{metodo:'POST',cuerpo:{email:correo(u),password:p}});
+    if(!r.ok){$('lg-err').textContent=r.estado===400?'Usuario o contraseña incorrectos.':'No se pudo iniciar sesión ('+r.estado+').';return;}
+    guardarSesion(r.datos);$('lg-p').value='';
+    await cargarPerfil();abrirApp();
+  }catch(e){$('lg-err').textContent='Sin conexión con el servidor. Revisa tu internet.';}
+  finally{$('lg-btn').disabled=false;}
+}
+function guardarSesion(d){LS.set(K.ses,{token:d.access_token,refresh:d.refresh_token,exp:Date.now()+(d.expires_in||3600)*1000,uid:d.user.id,email:d.user.email});}
+async function tokenValido(){
+  const s=ses();if(!s)return null;
+  if(Date.now()<s.exp-60000)return s.token;
+  if(!navigator.onLine)return null;
+  try{
+    const r=await api('/auth/v1/token?grant_type=refresh_token',{metodo:'POST',cuerpo:{refresh_token:s.refresh}});
+    if(r.ok){guardarSesion(r.datos);return ses().token;}
+    if(r.estado===400||r.estado===401){return'EXPIRADA';}
+  }catch(e){}
+  return null;
+}
+async function cargarPerfil(){
+  const s=ses();if(!s)return;
+  try{
+    const t=await tokenValido();if(!t||t==='EXPIRADA')return;
+    const r=await api(`/rest/v1/perfiles?id=eq.${s.uid}&select=nombre,rol,activo`,{token:t});
+    if(r.ok&&r.datos&&r.datos[0])LS.set(K.perfil,{uid:s.uid,...r.datos[0]});
+    else if(r.ok&&r.datos&&!r.datos.length)LS.set(K.perfil,{uid:s.uid,nombre:s.email.split('@')[0],rol:'sin perfil',activo:false});
+  }catch(e){}
+}
+const perfil=()=>{const p=LS.get(K.perfil,null),s=ses();return p&&s&&p.uid===s.uid?p:null;};
+function salir(){
+  const pend=cola().filter(x=>x._estado!=='enviado'&&x._estado!=='importado'&&x.uid===(ses()||{}).uid).length;
+  if(pend&&!confirm(`Tienes ${pend} servicio(s) sin enviar. Se conservarán en este teléfono y se enviarán la próxima vez que entres con tu usuario.\n\n¿Cerrar sesión?`))return;
+  localStorage.removeItem(K.ses);$('login').classList.add('on');
+}
+
+/* ---------- Cola local de servicios (funciona sin internet) ---------- */
+const cola=()=>LS.get(K.cola,[]);
+const guardarCola=c=>LS.set(K.cola,c);
+const nombreRubro=k=>(CAT.rubros.find(r=>r.k===k)||BASE.rubros.find(r=>r.k===k)||{l:k}).l;
+const pendientes=()=>cola().filter(x=>(x._estado==='pendiente'||x._estado==='error')&&x.uid===(ses()||{}).uid);
+
+function cargarPayload(s){
+  const nz=v=>v===''||v==null?null:v;
+  return{id:s.id,fecha:s.fecha,hora_llamado:nz(s.hora_llamado),hora_llegada:nz(s.hora_llegada),hora_programada:nz(s.hora_programada),rubro:s.rubro,programado:!!s.programado,
+    lugar:nz(s.lugar),vehiculos:s.vehiculos||[],localidad:s.localidad,resultado:nz(s.resultado),personas:s.personas||{},atendidas:s.atendidas||0,trasladadas:s.trasladadas||0,
+    obs:nz(s.obs),personal:s.personal||[],lat:s.lat??null,lng:s.lng??null};
+}
+let sincronizando=false;
+async function sincronizar(manual){
+  if(sincronizando)return;
+  if(!navigator.onLine){if(manual)toast('Sin internet: se enviarán cuando haya conexión','err');return;}
+  const s=ses();if(!s)return;
+  const t=await tokenValido();
+  if(t==='EXPIRADA'){toast('Tu sesión venció: vuelve a entrar. Tus servicios siguen guardados.','err');$('login').classList.add('on');return;}
+  if(!t){if(manual)toast('No se pudo conectar con el servidor','err');return;}
+  sincronizando=true;$('b-sync').disabled=true;
+  let enviados=0,fallos=0;
+  try{
+    for(const it of pendientes()){
+      let r;
+      try{
+        r=await api('/rest/v1/servicios?on_conflict=id',{metodo:'POST',cuerpo:cargarPayload(it),token:t,extra:{Prefer:'resolution=ignore-duplicates,return=minimal'}});
+      }catch(e){break;} // sin red: se reintenta después
+      const c=cola(),x=c.find(y=>y.id===it.id);if(!x)continue;
+      if(r.ok){x._estado='enviado';x._enviado=new Date().toISOString();delete x._err;enviados++;}
+      else if(r.estado>=500||r.estado===408||r.estado===429){break;}
+      else{x._estado='error';x._err=(r.datos&&(r.datos.message||r.datos.hint))||('Error '+r.estado);fallos++;}
+      guardarCola(c);
+    }
+    await refrescarEstados(t);
+  }finally{sincronizando=false;$('b-sync').disabled=false;}
+  pintarLista();
+  if(enviados)toast(`✅ ${enviados} servicio(s) enviado(s)`,'ok');
+  if(fallos)toast(`⚠️ ${fallos} servicio(s) con error: revísalos en «Mis servicios»`,'err');
+  else if(manual&&!enviados)toast('Todo está al día','ok');
+}
+// Marca como «importado» lo que la oficina ya trajo a su bitácora; también trae el catálogo actualizado
+async function refrescarEstados(t){
+  try{
+    const s=ses();
+    const r=await api(`/rest/v1/servicios?select=id,estado&creado_por=eq.${s.uid}&order=creado_en.desc&limit=200`,{token:t});
+    if(r.ok&&Array.isArray(r.datos)){const m=Object.fromEntries(r.datos.map(x=>[x.id,x.estado])),c=cola();let ch=false;
+      c.forEach(x=>{if(m[x.id]==='importado'&&x._estado!=='importado'){x._estado='importado';ch=true;}else if(m[x.id]&&x._estado==='pendiente'){x._estado='enviado';ch=true;}});
+      if(ch)guardarCola(c);}
+    const k=await api('/rest/v1/catalogos?select=tipo,clave,etiqueta,extra,activo',{token:t});
+    if(k.ok&&Array.isArray(k.datos)){LS.set(K.cat,k.datos);aplicarCatalogo(k.datos);pintarCatalogo();}
+  }catch(e){}
+}
+
+/* ---------- Formulario ---------- */
+let editId='',progOn=false,gpsDato=null;
+function setProg(on){progOn=on;$('p-no').classList.toggle('on',!on);$('p-si').classList.toggle('on',on);$('w-horas').classList.toggle('hide',on);$('w-hprog').classList.toggle('hide',!on);}
+function sugerirProg(){const r=CAT.rubros.find(x=>x.k===$('f-rubro').value);if(r)setProg(!!r.prog);}
+function toggleVeh(){$('w-veh').classList.toggle('hide',$('f-rubro').value!=='accidentes');}
+function ahora(id){$(id).value=horaAhora();}
+function gps(){
+  if(!navigator.geolocation){toast('Este teléfono no permite GPS','err');return;}
+  $('f-gps').value='Buscando…';
+  navigator.geolocation.getCurrentPosition(p=>{gpsDato={lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)};$('f-gps').value=`${gpsDato.lat}, ${gpsDato.lng}`;},
+    ()=>{gpsDato=null;$('f-gps').value='';toast('No se pudo obtener la ubicación','err');},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+}
+function pintarEdades(){
+  $('f-edades').innerHTML='<span></span><b style="color:#e91e8c">Mujeres</b><b style="color:#1da8ea">Hombres</b>'+EDADES.map(g=>`<span>${g.l}</span>`+['M','H'].map(sx=>
+    `<div class="step"><button type="button" onclick="paso('${g.k}_${sx}',-1)">−</button><input type="number" inputmode="numeric" min="0" id="e-${g.k}_${sx}" placeholder="0" oninput="sumaEdades()"/><button type="button" onclick="paso('${g.k}_${sx}',1)">+</button></div>`).join('')).join('');
+}
+function paso(k,d){const i=$('e-'+k);i.value=Math.max(0,(parseInt(i.value,10)||0)+d)||'';sumaEdades();}
+const leerEdades=()=>{const o={};EDADES.forEach(g=>['M','H'].forEach(sx=>{const v=Math.max(0,parseInt($(`e-${g.k}_${sx}`).value,10)||0);if(v)o[g.k+'_'+sx]=v;}));return o;};
+function sumaEdades(){const t=Object.values(leerEdades()).reduce((a,v)=>a+v,0);if(t>0)$('f-pa').value=t;}
+function pintarPersonal(){
+  const p=perfil(),yo=p?p.nombre:'';
+  const prev=[...document.querySelectorAll('#f-personal input:checked')].map(i=>i.value);
+  const nombres=[...new Set([yo,...cola().flatMap(s=>s.personal||[])].filter(Boolean))];
+  $('f-personal').innerHTML=nombres.map(n=>`<label><input type="checkbox" value="${esc(n)}" ${(prev.length?prev.includes(n):n===yo)?'checked':''}/> ${esc(n)}</label>`).join('');
+}
+function limpiar(){
+  editId='';gpsDato=null;
+  ['f-hll','f-hlg','f-hprog','f-loc','f-pa','f-pt','f-obs','f-otros','f-gps'].forEach(i=>$(i).value='');
+  $('f-rubro').value='';$('f-lugar').value='';$('f-res').selectedIndex=0;$('f-fecha').value=hoyISO();
+  document.querySelectorAll('#f-veh input').forEach(x=>x.checked=false);
+  EDADES.forEach(g=>['M','H'].forEach(sx=>$(`e-${g.k}_${sx}`).value=''));
+  setProg(false);toggleVeh();pintarPersonal();
+  $('f-titulo').textContent='Nuevo servicio';$('f-guardar').textContent='Guardar servicio';$('f-cancel').style.display='none';
+}
+function guardar(){
+  const s=ses();if(!s){$('login').classList.add('on');return;}
+  const rubro=$('f-rubro').value,loc=$('f-loc').value.trim().replace(/\s+/g,' '),fecha=$('f-fecha').value;
+  if(!fecha||!rubro||!loc){toast('Faltan: fecha, tipo de servicio y localidad','err');return;}
+  const num=v=>Math.max(0,parseInt(v,10)||0);
+  const personal=[...document.querySelectorAll('#f-personal input:checked')].map(i=>i.value).concat($('f-otros').value.split(',').map(x=>x.trim()).filter(Boolean));
+  const reg={id:editId||uuid(),uid:s.uid,fecha,rubro,programado:progOn,
+    hora_llamado:progOn?'':$('f-hll').value,hora_llegada:progOn?'':$('f-hlg').value,hora_programada:progOn?$('f-hprog').value:'',
+    lugar:$('f-lugar').value,vehiculos:rubro==='accidentes'?[...document.querySelectorAll('#f-veh input:checked')].map(i=>i.value):[],
+    localidad:loc,resultado:$('f-res').value,personas:leerEdades(),atendidas:num($('f-pa').value),trasladadas:num($('f-pt').value),
+    obs:$('f-obs').value.trim(),personal:[...new Set(personal)],lat:gpsDato?gpsDato.lat:null,lng:gpsDato?gpsDato.lng:null,
+    _estado:'pendiente',_creado:new Date().toISOString()};
+  const c=cola(),i=c.findIndex(x=>x.id===reg.id);
+  if(i>=0){reg._creado=c[i]._creado||reg._creado;c[i]=reg;}else c.unshift(reg);
+  guardarCola(c);limpiar();pintarCatalogo();pintarLista();
+  if(navigator.onLine){toast('✅ Guardado. Enviando…','ok');sincronizar(false);}
+  else toast('✅ Guardado en el teléfono. Se enviará cuando haya internet','ok');
+}
+function editar(id){
+  const x=cola().find(y=>y.id===id);if(!x||(x._estado!=='pendiente'&&x._estado!=='error'))return;
+  vista('nuevo');editId=x.id;gpsDato=x.lat!=null?{lat:x.lat,lng:x.lng}:null;
+  $('f-rubro').value=x.rubro;setProg(!!x.programado);toggleVeh();$('f-fecha').value=x.fecha;
+  $('f-hll').value=x.hora_llamado||'';$('f-hlg').value=x.hora_llegada||'';$('f-hprog').value=x.hora_programada||'';
+  $('f-loc').value=x.localidad;$('f-lugar').value=x.lugar||'';$('f-res').value=x.resultado||'';
+  document.querySelectorAll('#f-veh input').forEach(i=>i.checked=(x.vehiculos||[]).includes(i.value));
+  EDADES.forEach(g=>['M','H'].forEach(sx=>$(`e-${g.k}_${sx}`).value=(x.personas||{})[g.k+'_'+sx]||''));
+  $('f-pa').value=x.atendidas||'';$('f-pt').value=x.trasladadas||'';$('f-obs').value=x.obs||'';
+  $('f-gps').value=gpsDato?`${gpsDato.lat}, ${gpsDato.lng}`:'';
+  pintarPersonal();const ch=[...document.querySelectorAll('#f-personal input')];ch.forEach(i=>i.checked=(x.personal||[]).includes(i.value));
+  $('f-otros').value=(x.personal||[]).filter(n=>!ch.some(i=>i.value===n)).join(', ');
+  $('f-titulo').textContent='Editando servicio (aún sin enviar)';$('f-guardar').textContent='Guardar cambios';$('f-cancel').style.display='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function quitar(id){
+  const x=cola().find(y=>y.id===id);if(!x)return;
+  const aviso=(x._estado==='pendiente'||x._estado==='error')?'Este servicio NO se ha enviado y se perderá.\n\n¿Eliminarlo de este teléfono?':'Se quitará solo de la lista de este teléfono (el registro ya enviado se conserva en el servidor).\n\n¿Continuar?';
+  if(!confirm(aviso))return;
+  guardarCola(cola().filter(y=>y.id!==id));pintarLista();
+}
+
+/* ---------- Lista ---------- */
+const ETQ={pendiente:['b-pend','Pendiente de enviar'],error:['b-err','Con error'],enviado:['b-env','Enviado'],importado:['b-imp','Ya en la bitácora']};
+function pintarLista(){
+  const s=ses(),c=cola().filter(x=>s&&x.uid===s.uid),pend=c.filter(x=>x._estado==='pendiente'||x._estado==='error').length;
+  $('n-badge').textContent=pend?`(${pend})`:'';
+  $('l-resumen').textContent=c.length?`${c.length} servicio(s) en este teléfono · ${pend} sin enviar`:'Todavía no has capturado servicios en este teléfono.';
+  $('l-lista').innerHTML=c.slice(0,150).map(x=>{const e=ETQ[x._estado]||ETQ.pendiente,editable=x._estado==='pendiente'||x._estado==='error';
+    return `<div class="item"><div class="t">${esc(nombreRubro(x.rubro))}<span class="badge ${e[0]}">${e[1]}</span></div>
+    <div class="s">${esc(x.fecha.split('-').reverse().join('/'))} · ${esc(x.programado?(x.hora_programada||'programado'):(x.hora_llamado||'—'))} · ${esc(x.localidad)}</div>
+    ${x.atendidas?`<div class="s">Personas atendidas: ${x.atendidas}${x.trasladadas?` · trasladadas: ${x.trasladadas}`:''}</div>`:''}
+    ${x._err?`<div class="s" style="color:var(--err)">${esc(x._err)}</div>`:''}
+    <div style="display:flex;gap:8px;margin-top:8px">${editable?`<button class="btn sm sec" onclick="editar('${x.id}')">Editar</button>`:''}<button class="btn sm sec" onclick="quitar('${x.id}')">Quitar</button></div></div>`;}).join('');
+}
+function vista(v){
+  $('v-nuevo').classList.toggle('hide',v!=='nuevo');$('v-lista').classList.toggle('hide',v!=='lista');
+  $('n-nuevo').classList.toggle('on',v==='nuevo');$('n-lista').classList.toggle('on',v==='lista');
+  if(v==='lista')pintarLista();window.scrollTo(0,0);
+}
+
+/* ---------- Estado de la conexión, menú, instalación ---------- */
+function pintarRed(){const on=navigator.onLine;$('h-estado').textContent=on?'En línea':'Sin internet';$('h-estado').classList.toggle('off',!on);}
+let instalador=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instalador=e;});
+function menu(){
+  const p=perfil(),s=ses();
+  const op=prompt(`Sesión: ${p?p.nombre:(s?s.email:'')}\n\nEscribe el número:\n1 = Cerrar sesión\n2 = Instalar en la pantalla de inicio\n3 = Actualizar catálogos y estados`,'');
+  if(op==='1')salir();
+  else if(op==='2'){if(instalador){instalador.prompt();instalador=null;}else toast('En el menú del navegador elige «Instalar app» o «Agregar a pantalla de inicio»');}
+  else if(op==='3')sincronizar(true);
+}
+function abrirApp(){
+  $('login').classList.remove('on');
+  const p=perfil(),s=ses();$('h-user').textContent=p?p.nombre:(s?s.email:'—');
+  if(p&&p.activo===false)toast('Tu cuenta no tiene permiso para capturar. Avisa a la oficina.','err');
+  pintarPersonal();pintarLista();sincronizar(false);
+}
+function arrancar(){
+  aplicarCatalogo(LS.get(K.cat,[]));pintarEdades();pintarCatalogo();limpiar();pintarRed();
+  window.addEventListener('online',()=>{pintarRed();sincronizar(false);});window.addEventListener('offline',pintarRed);
+  setInterval(()=>{if(ses())sincronizar(false);},45000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ses())sincronizar(false);});
+  if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+  if(ses())abrirApp();else $('login').classList.add('on');
+}
+arrancar();
+</script>
+</body>
+</html>
